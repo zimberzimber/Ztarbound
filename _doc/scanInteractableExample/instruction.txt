@@ -1,0 +1,4 @@
+
+The scan interaction calls the "scanInteraction" function within the object, passing it the players entity ID.
+Simply follow the example object within the same folder as this file.
+Obviously, the player must have the scan tool unlocked before they can scan interact. (Limitation, not feature)

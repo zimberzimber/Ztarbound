@@ -1,0 +1,14 @@
+{
+	"itemName" : "fm_portablemusicplayer",
+	"shortdescription" : "Portable Music Player",
+	"description" : "^cyan;Primary^reset;: Select music
+^yellow;Secondary^reset;: Turn player off",
+	"maxStack" : 1,
+	"rarity" : "common",
+	"category" : "Console",
+	"twoHanded" : true,
+	"itemTags" : ["tool"],
+	"inventoryIcon" : "/objects/generic/fm_musicplayer/fm_musicplayericon.png",
+	"animation" : "fm_portablemusicplayer.animation",
+	"scripts" : ["fm_portablemusicplayer.lua"]
+}

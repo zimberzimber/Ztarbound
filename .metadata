@@ -1,0 +1,9 @@
+{
+  "author" : "zimberzimber",
+  "description" : "More modder resources than a mod, but ",
+  "friendlyName" : "Ztarbound",
+  "includes" : ["scriptedail"],
+  "name" : "ztarbound",
+  "tags" : "Miscellaneous|User Interface|Mechanics",
+  "version" : "1"
+}

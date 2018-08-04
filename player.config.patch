@@ -1,0 +1,7 @@
+[
+	// Custom ZB player init functions
+	{ "op": "add", "path" : "/deploymentConfig/scripts/-", "value" : "/zb/zb_player_init.lua"},
+	
+	// New SAIL helper for getting player companions
+	{ "op": "add", "path": "/companionsConfig/scripts/-", "value": "/scripts/companionhandler.lua" }
+]

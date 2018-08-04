@@ -1,0 +1,40 @@
+
+To add music to the music player, simply create a .config file and place it anywhere inside your mods directory
+and patch the following line into "/interface/scripted/fm_musicplayer/musiclist.config":
+
+[
+	[
+		{
+			"op": "add",
+			"path": "/##files##/",
+			"value": "MYFILEPATH"
+		}
+	]
+]
+
+Replace "MYFILEPATH" with the path to your previously created .config file.
+
+Inside your .config file, add these lines:
+{
+	"##album_icons##" : {
+		"ALBUMNAME" : "PATHTOALBUMICON"
+	},
+	
+	"ALBUMNAME" : [
+		{
+			"name" : "TRACKNAME1",
+			"directory" : "TRACKPATH1"
+		},
+		{
+			"name" : "TRACKNAME2",
+			"directory" : "TRACKPATH2"
+		}
+	]
+}
+Replace "ALBUMNAME" with the name of the album. (This name is displayed to the player)
+Replace "PATHTOALBUMICON" with the path to the albums displayed image.
+Replace "TRACKNAME" with the name of the track. (This name is displayed to the player)
+Replace "TRACKPATH" with the path to the music file.
+
+Note that the albums image must be 21x21 in size to not look out of place.
+Also note that you don't have to worry about overrides, as the albums will get merged should there be two mods using the same album name. (Same name tracks will be duplicated though)
