@@ -7,11 +7,6 @@
 	{
 		"op": "add",
 		"path": "/normal/-",
-		"value": { "label": "Character Status", "pane": "/zb/statWindow/statWindow.config", "icon": "/items/tools/inspectiontool/inspectionmode.png" }
-	},
-	{
-		"op": "add",
-		"path": "/normal/-",
 		"value": { "label": "Updates", "pane": "/zb/updateInfoWindow/updateInfoWindow.config", "icon": "/interface/quest.png" }
 	},
 	{
