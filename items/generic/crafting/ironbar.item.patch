@@ -1,0 +1,12 @@
+[
+	[
+		{ "op": "test", "path": "/learnBlueprintsOnPickup" },
+		{ "op": "add", "path": "/learnBlueprintsOnPickup/-", "value": "fm_musicplayer" },
+		{ "op": "add", "path": "/learnBlueprintsOnPickup/-", "value": "fm_musicplayerwall" },
+		{ "op": "add", "path": "/learnBlueprintsOnPickup/-", "value": "fm_portablemusicplayer" }
+	],
+	[
+		{ "op": "test", "path": "/learnBlueprintsOnPickup", "inverse": true },
+		{ "op": "add", "path": "/learnBlueprintsOnPickup", "value": ["fm_musicplayer", "fm_musicplayerwall", "fm_portablemusicplayer"] }
+	]
+]

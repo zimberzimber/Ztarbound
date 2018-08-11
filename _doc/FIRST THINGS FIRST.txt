@@ -1,0 +1,31 @@
+
+First thing you have to do is enable viewing file extensions in your folder options so you can modify them.
+Google "How to modify file extensions" if you don't know how to do that.
+You will also require a proper text editing program such as Notepad++ or Sublime Text (Both are free)
+Keep in mind opening .config, .patch, and other such files is required, so you need one such program.
+
+To make sure your additions load into the game, you must add a .metadata file to the root folder of your mod.
+Thats the full name, ".metadata", nothing before the dot.
+If your OS doesn't allow you to create a nameless file, simply copy and paste that file from my mod, and replace the data within with this:
+
+{
+  "author" : "yournamehere",
+  "description" : "yourdescriptionhere",
+  "friendlyName" : "Mod name here",
+  "includes" : ["ztarbound", "FrackinUniverse"],
+  "name" : "modnamehere",
+  "version" : "1"
+}
+
+You can freely modify any of the fields, except for includes. Those must stay there.
+
+If you don't know much about Starbound modding, it is advised you read through this first:
+https://starbounder.org/Modding:Modding_Basics
+
+But keep this in mind:
+Do NOT directly modify any files in ZB unless you know what you're doing.
+That means already present configs, patches, and lua scripts.
+Creating patches is not considered as direct modification.
+You CAN modify already present images, but its better off to add that as a separate addon from your other content.
+
+
