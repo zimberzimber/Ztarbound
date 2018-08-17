@@ -1,7 +1,7 @@
 
 
 To add music to the music player, simply create a new .txt file, and change the .txt bit into .config (Its name before the dot doesn't matter)
-Create a new folder in your mods files name "interface", inside it make another one named "scripted", and inside it another named "fm_musicplayer"
+Create a new folder in your mods files named "interface", inside it make another one named "scripted", and inside it another named "fm_musicplayer"
 Inside the "fm_musicplayer" folder, create a new .txt file and write this into it:
 [
 	[
