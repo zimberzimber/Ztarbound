@@ -1,5 +1,4 @@
 
-
 To add music to the music player, simply create a new .txt file, and change the .txt bit into .config (Its name before the dot doesn't matter)
 Create a new folder in your mods files named "interface", inside it make another one named "scripted", and inside it another named "fm_musicplayer"
 Inside the "fm_musicplayer" folder, create a new .txt file and write this into it:
@@ -65,3 +64,8 @@ Here is a full example that add 3 tracks into the vanilla album:
 
 You can add as many tracks as you want into an album, but take note of the structure!
 Every } must have a , after it, EXCEPT FOR THE LAST ONE!
+
+There is a ready template in the same fodler as this file named 'AddingMusicTemplate.rar'.
+Unpack its contents into your Starbound/mods folder, and apply the changes.
+# IMPORTANT # There is a '.metadata' file located within that folder, make sure to rename the "author" and "name" fields within that file, and to not touch anything else.
+(Unless you know what you're doing)
