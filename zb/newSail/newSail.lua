@@ -393,7 +393,7 @@ function buttonMainSafe(wd)
 			resetGUI()
 			
 			if cfg.Data.missionWorld then
-				player.warp("InstanceWorld:"..cfg.Data.missionWorld, "beam")
+				player.warp("InstanceWorld:"..cfg.Data.missionWorld, cfg.Data.warpAnimation or "beam", cfg.Data.warpAnimation=="deploy")
 				pane.dismiss()
 			end
 		elseif widget.active("root.crewList") then
@@ -655,6 +655,7 @@ function missionSelectedSafe()
 				widget.clearListItems("root.missionList")
 				
 				cfg.Data.missionWorld = dat.missionWorld
+				cfg.Data.warpAnimation = dat.warpAnimation
 				
 				local listItem = "root.missionList."..widget.addListItem("root.missionList")
 				widget.setVisible(listItem..".pseudobutton", false)
@@ -717,7 +718,7 @@ function crewSelectedSafe()
 			
 			local crew = cfg.Data.crew[listData.index]
 			if crew then
-				local text = crew.description.."\n^cyan;> Species:^white; "..crew.config.species.."\n^cyan;> Level:^white; "..crew.config.parameters.level
+				local text = crew.description.."\n^cyan;> Species:^white; "..crew.config.species.."\n^cyan;>" --Level:^white; "..crew.config.parameters.level
 				textTyper.init(cfg.TextData, text, customData.chatterSound or cfg.TextData.sound)
 
 				widget.setText("path", "root/sail/ui/crew/"..crew.name)
