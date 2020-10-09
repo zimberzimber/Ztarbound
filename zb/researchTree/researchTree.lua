@@ -930,13 +930,18 @@ function canAfford(research, consume)
 		end
 	end
 
+	sb.logError('%s', selectedTree)
 	-- Running the loops again so it consumes stuff AFTER checking that the player has everything
 	if consume then
 		for _, tbl in ipairs(researchTree[research].price) do
 			if currencyTable[tbl[1]] then
-				player.consumeCurrency(tbl[1], tbl[2])
+				if not data.customConsumptionRules[selectedTree] or data.customConsumptionRules[selectedTree].currency == nil or data.customConsumptionRules[selectedTree].currency == true then
+					player.consumeCurrency(tbl[1], tbl[2])
+				end
 			else
-				player.consumeItem({name = tbl[1], count = tbl[2]}, true)
+				if not data.customConsumptionRules[selectedTree] or data.customConsumptionRules[selectedTree].items == nil or data.customConsumptionRules[selectedTree].items == true then
+					player.consumeItem({name = tbl[1], count = tbl[2]}, true)
+				end
 			end
 		end
 	end
