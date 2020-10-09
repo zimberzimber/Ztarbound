@@ -930,7 +930,6 @@ function canAfford(research, consume)
 		end
 	end
 
-	sb.logError('%s', selectedTree)
 	-- Running the loops again so it consumes stuff AFTER checking that the player has everything
 	if consume then
 		for _, tbl in ipairs(researchTree[research].price) do
