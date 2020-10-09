@@ -447,7 +447,31 @@ function populateTreeList()
 
 	local toSort = {}
 	for tree, _ in pairs(data.researchTree) do
-		table.insert(toSort, {tree = tree, name = data.strings.trees[tree] or tree})
+		local isAvailable = true
+
+		if data.treeUnlocks[tree] then
+			if data.treeUnlocks[tree].quests then
+				for _, questId in ipairs(data.treeUnlocks[tree].quests) do
+					if not player.hasCompletedQuest(questId) then 
+						isAvailable = false
+						break
+					end
+				end
+			end
+
+			if isAvailable and data.treeUnlocks[tree].research then
+				for tree, acronyms in pairs(data.treeUnlocks[tree].research) do
+					if not isResearched(tree, acronyms) then
+						isAvailable = false
+						break
+					end
+				end
+			end
+		end
+
+		if isAvailable then
+			table.insert(toSort, {tree = tree, name = data.strings.trees[tree] or tree})
+		end
 	end
 
 	table.sort(toSort, function(a, b) return a.name:upper() < b.name:upper() end)
@@ -918,6 +942,27 @@ function canAfford(research, consume)
 	end
 
 	return true
+end
+
+function isResearched(tree, acronym)
+	local researched = status.statusProperty("zb_researchtree_researched", {}) or {}
+
+	if researched and researched[tree] then
+		if type(acronym) == 'string' then
+			if string.match(researched[tree], acronym..',') then
+				return true
+			end
+		elseif type(acronym) == 'table' then
+			for _, acr in ipairs(acronym) do
+				if not string.match(researched[tree], acr..',') then
+					return false
+				end
+			end
+			return true
+		end
+	end
+	
+	return false
 end
 
 --		Cheat codes
