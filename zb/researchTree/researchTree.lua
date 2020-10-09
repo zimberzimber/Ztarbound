@@ -152,8 +152,10 @@ function update(dt)
 
 	if selected and not readOnly and researchTree[selected].state == "available" and canAfford(selected) then
 		widget.setButtonEnabled("researchButton", true)
+		widget.setButtonEnabled("consumptionText", true)
 	else
 		widget.setButtonEnabled("researchButton", false)
+		widget.setButtonEnabled("consumptionText", false)
 	end
 
 	if clickTimeRemaining > 0 then
@@ -235,6 +237,7 @@ function searchButton()
 	if not verified then return end
 	if widget.active("searchList") then
 		widget.setVisible("researchButton", true)
+		widget.setVisible("consumptionText", true)
 		widget.setVisible("searchList", false)
 		widget.setVisible("infoList", true)
 
@@ -252,6 +255,7 @@ function searchButton()
 		searchListRepopulationCooldown = data.searchListRepopulationInterval
 		widget.setText("title", "Zoom to a research by clicking on it in the list")
 		widget.setVisible("researchButton", false)
+		widget.setVisible("consumptionText", false)
 		widget.setVisible("searchList", true)
 		widget.setVisible("infoList", false)
 		populateSearchList()
@@ -270,12 +274,29 @@ function treePickButton()
 	if not verified then return end
 	if widget.active("treeList") then
 		widget.setVisible("researchButton", true)
+		widget.setVisible("consumptionText", true)
 		widget.setVisible("treeList", false)
 		widget.setVisible("infoList", true)
 
 		for i = 1, 9 do
 			widget.setVisible("priceItem"..i, true)
 		end
+		
+		local consumptionRules = getTreeConsumptionRules(selectedTree)
+
+		if consumptionRules.currency then
+			consumeText = '^green; Will not consume currency'
+		else
+			consumeText = '^red; Will consume currency'
+		end
+
+		if consumptionRules.items then
+			consumeText = consumeText..'\n^green; Will not consume items'
+		else
+			consumeText = consumeText..'\n^red; Will consume items'
+		end
+
+		widget.setText("consumptionText", consumeText)
 
 		updateInfoPanel()
 		widget.setButtonImages("treePickButton",
@@ -287,6 +308,7 @@ function treePickButton()
 		searchListRepopulationCooldown = data.searchListRepopulationInterval
 		widget.setText("title", "Select a research tree")
 		widget.setVisible("researchButton", false)
+		widget.setVisible("consumptionText", false)
 		widget.setVisible("treeList", true)
 		widget.setVisible("infoList", false)
 		populateTreeList()
@@ -474,13 +496,23 @@ function populateTreeList()
 		end
 	end
 
-	table.sort(toSort, function(a, b) return a.name:upper() < b.name:upper() end)
-
 	local listItem = ""
-	for _, data in ipairs(toSort) do
+	if (#toSort == 0) then
 		listItem = "treeList.list."..widget.addListItem("treeList.list")
-		widget.setData(listItem, data.tree)
-		widget.setText(listItem..".title", data.name)
+		widget.setText(listItem..".title", '^red;No Trees Available')
+		widget.setButtonEnabled(listItem..".title", false)
+	else
+		table.sort(toSort, function(a, b) return a.name:upper() < b.name:upper() end)
+
+		for _, d in ipairs(toSort) do
+			listItem = "treeList.list."..widget.addListItem("treeList.list")
+			widget.setData(listItem, d.tree)
+			widget.setText(listItem..".title", d.name)
+
+			if (data.treeIcons[d.tree]) then
+				widget.setImage(listItem..".icon", data.treeIcons[d.tree])
+			end
+		end
 	end
 end
 
@@ -497,12 +529,13 @@ function treeSelected()
 	local wdata = widget.getListSelected("treeList.list")
 	if wdata then
 		wdata = widget.getData("treeList.list."..wdata)
-
-		gridTileImage = data.cutsomGridTileImages[wdata] or data.defaultGridTileImage
-		gridTileSize = root.imageSize(gridTileImage)
-		buildStates(wdata)
-		treePickButton()
-		panTo()
+		if wdata then
+			gridTileImage = data.cutsomGridTileImages[wdata] or data.defaultGridTileImage
+			gridTileSize = root.imageSize(gridTileImage)
+			buildStates(wdata)
+			treePickButton()
+			panTo()
+		end
 	end
 end
 
@@ -811,6 +844,7 @@ function verifyAcronims()
 		return true
 	else
 		widget.setVisible("researchButton", false)
+		widget.setVisible("consumptionText", false)
 		widget.setVisible("treePickButton", false)
 		widget.setVisible("centerButton", false)
 		widget.setVisible("searchButton", false)
@@ -932,13 +966,14 @@ function canAfford(research, consume)
 
 	-- Running the loops again so it consumes stuff AFTER checking that the player has everything
 	if consume then
+		local consumptionRules = getTreeConsumptionRules(selectedTree)
 		for _, tbl in ipairs(researchTree[research].price) do
 			if currencyTable[tbl[1]] then
-				if not data.customConsumptionRules[selectedTree] or data.customConsumptionRules[selectedTree].currency == nil or data.customConsumptionRules[selectedTree].currency == true then
+				if consumptionRules.currency then
 					player.consumeCurrency(tbl[1], tbl[2])
 				end
 			else
-				if not data.customConsumptionRules[selectedTree] or data.customConsumptionRules[selectedTree].items == nil or data.customConsumptionRules[selectedTree].items == true then
+				if consumptionRules.items then
 					player.consumeItem({name = tbl[1], count = tbl[2]}, true)
 				end
 			end
@@ -967,6 +1002,17 @@ function isResearched(tree, acronym)
 	end
 	
 	return false
+end
+
+function getTreeConsumptionRules(tree)
+	if not data.customConsumptionRules[selectedTree] then
+		return {currency = true, items = true}
+	end
+
+	return {
+		currency = data.customConsumptionRules[selectedTree].currency == nil or data.customConsumptionRules[selectedTree].currency == true,
+		items = data.customConsumptionRules[selectedTree].items == nil or data.customConsumptionRules[selectedTree].items == true
+	}
 end
 
 --		Cheat codes
