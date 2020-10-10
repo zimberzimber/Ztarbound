@@ -285,15 +285,15 @@ function treePickButton()
 		local consumptionRules = getTreeConsumptionRules(selectedTree)
 
 		if consumptionRules.currency then
-			consumeText = '^green; Will not consume currency'
-		else
 			consumeText = '^red; Will consume currency'
+		else
+			consumeText = '^green; Will not consume currency'
 		end
 
 		if consumptionRules.items then
-			consumeText = consumeText..'\n^green; Will not consume items'
-		else
 			consumeText = consumeText..'\n^red; Will consume items'
+		else
+			consumeText = consumeText..'\n^green; Will not consume items'
 		end
 
 		widget.setText("consumptionText", consumeText)
